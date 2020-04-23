@@ -1,4 +1,4 @@
-package edu.mcdaniel.java2206.lab7_8;
+package edu.mcdaniel.java2206.final_project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

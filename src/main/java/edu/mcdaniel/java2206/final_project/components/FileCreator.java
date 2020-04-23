@@ -1,6 +1,6 @@
-package edu.mcdaniel.java2206.lab7_8.components;
+package edu.mcdaniel.java2206.final_project.components;
 
-import edu.mcdaniel.java2206.lab7_8.exceptions.FileWriterException;
+import edu.mcdaniel.java2206.final_project.exceptions.FileWriterException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package edu.mcdaniel.java2206.lab7_8.exceptions;
+package edu.mcdaniel.java2206.final_project.exceptions;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
