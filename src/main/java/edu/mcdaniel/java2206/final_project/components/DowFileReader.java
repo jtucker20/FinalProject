@@ -29,30 +29,7 @@ public class DowFileReader {
      */
     private File dowFile;
 
-    /**
-     * Field that will hold the values of Dow Opens
-     */
-    private List<Double> dowOpens;
-
-    /**
-     * Field that will hold the values of Dow highs
-     */
-    private List<Double> dowHighs;
-
-    /**
-     * Field that will hold the values of Dow lows
-     */
-    private List<Double> dowLows;
-
-    /**
-     * Field that will hold the values of Dow closes
-     */
-    private List<Double> dowClose;
-
-    /**
-     * Field that will hold the dates corresponding to the integer
-     */
-    private List<Date> dowDates;
+    //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
 
 
     //=============================================================================================
@@ -62,6 +39,7 @@ public class DowFileReader {
     /**
      * This No Argument constructor Will use the internal file.
      */
+    //DO NOT MODIFY
     public DowFileReader() throws NullPointerException {
         // If this is called, we will use the internal file
         this.dowFile = new File(
@@ -90,31 +68,15 @@ public class DowFileReader {
      * This major method initializes the file.
      */
     public void setUp() throws DowFileReaderException {
-        if(!validate()){
-           throw new DowFileReaderException("Invalid File Setup.");
-        }
-
-        //Here we setup/instantiate the Map as a hash map to hold the data.
-        this.dowOpens = new ArrayList<>();
-        this.dowHighs = new ArrayList<>();
-        this.dowLows  = new ArrayList<>();
-        this.dowClose = new ArrayList<>();
-
-        this.dowDates = new ArrayList<>();
+        //TODO, DO any setup you need.
     }
 
     /**
      * Major method to read in the data
      */
+    //DO NOT MODIFY.
     public void read() throws DowFileReaderException {
-        //TODO: FINISH THIS CHECK!!!
-        if(!validate() || this.dowOpens == null || this.dowHighs == null
-            || this.dowLows == null || this.dowClose == null || this.dowDates == null){
-            //We validate that all parts are actually active
-            throw new DowFileReaderException("Invalid Setup!");
-        }
-
-        //Once we validate things are good, we try to read the lines of the file
+        // We try to read the lines of the file
         try{
             readLines();
         } catch (Exception ioe){
@@ -126,6 +88,7 @@ public class DowFileReader {
     /**
      * Line reader functionality
      */
+    //DO NOT MODIFY THIS BEHAVIOR.
     public void readLines() throws DowFileReaderException, IOException {
         //This is a try with resources block.  Inside of it, you have auto-closeable things, like a buffered reader
         // You use this EVERY time there is a resource with auto-closeable abilities.
@@ -136,8 +99,6 @@ public class DowFileReader {
             while((line = reader.readLine()) != null){  //This complicated logic takes a line from the reader
                 // and puts it into line.  Then checks to see if the line was null.
                 //The line reader will return a null when eof hits.
-
-                //TODO: YOU HAVE TO PUT IN THE LOGIC TO MAKE THIS WORK!
                 readAline(line, linePos);
                 linePos++;
             }
@@ -148,71 +109,14 @@ public class DowFileReader {
      * Method to parse a single line
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
-        if (linePos < 0) {
-            throw new DowFileReaderException("Bad Line Position: " + linePos);
-        }
-        if (linePos < 2) {
-            return;  // We don't want to read in the header lines!
-        }
-        String[] lineParts = line.split(","); // Here we split on commas as this file is comma
-        // separated.
-
-        //I am expecting that there will be 14 columns, All filled with data.
-        if (lineParts.length == 7) {
-            String date = lineParts[0]; //Since the year is at pos 0;
-            String open = lineParts[1]; //Since the average is at pos 1;
-            String high = lineParts[2]; //Since the average is at pos 2;
-            String low = lineParts[3]; //Since the average is at pos 3;
-            String close = lineParts[4];//Since the average is at pos 4;
-
-            //Now to check we have values we are expecting!
-            if (date == null || date.isBlank() || date.isEmpty() || open == null || open.isBlank() || open.isEmpty()
-                    || high == null || high.isBlank() || high.isEmpty() || low == null || low.isBlank() || low.isEmpty()
-                    || close == null || close.isBlank() || close.isEmpty()) {
-                throw new DowFileReaderException("Bad Data in line " + linePos + " Line Value " + line);
-
-            }
-
-            //Date Parsing
-            String year = date.substring(0, 4);
-            String month = date.substring(5,7);
-            String day = date.substring(8);
-            int yr = Integer.parseInt(year) - 1900;
-            int mn = Integer.parseInt(month) - 1;
-            int dy = Integer.parseInt(day);
-            Date dt = new Date(yr, mn, dy);
-            this.dowDates.add(dt);
-
-            //Open
-            double opn = Double.parseDouble(open);
-            this.dowOpens.add(opn);
-
-            //High
-            double hgh = Double.parseDouble(high);
-            this.dowHighs.add(hgh);
-
-            //Low
-            double lw = Double.parseDouble(low);
-            this.dowLows.add(lw);
-
-            //Close
-            double cls = Double.parseDouble(close);
-            this.dowClose.add(cls);
-        }
+        //TODO: IMPLMENT THIS!!!!
     }
 
     //=============================================================================================
     // Minor Methods(s)
     //=============================================================================================
 
-    /**
-     * validation method.
-     * @return true if valid.
-     */
-    public boolean validate(){
-        return this.dowFile != null && this.dowFile.canRead();
-    }
-
+    //TODO Put in minor methods
 
     //=============================================================================================
     // Getters and Setters
@@ -232,43 +136,5 @@ public class DowFileReader {
         return this.dowFile;
     }
 
-    public List<Double> getDowOpens() {
-        return dowOpens;
-    }
-
-    public void setDowOpens(List<Double> dowOpens) {
-        this.dowOpens = dowOpens;
-    }
-
-    public List<Double> getDowHighs() {
-        return dowHighs;
-    }
-
-    public void setDowHighs(List<Double> dowHighs) {
-        this.dowHighs = dowHighs;
-    }
-
-    public List<Double> getDowLows() {
-        return dowLows;
-    }
-
-    public void setDowLows(List<Double> dowLows) {
-        this.dowLows = dowLows;
-    }
-
-    public List<Double> getDowClose() {
-        return dowClose;
-    }
-
-    public void setDowClose(List<Double> dowClose) {
-        this.dowClose = dowClose;
-    }
-
-    public List<Date> getDowDates() {
-        return dowDates;
-    }
-
-    public void setDowDates(List<Date> dowDates) {
-        this.dowDates = dowDates;
-    }
+    //TODO IMPLEMENT THE GETTERS AND SETTERS!
 }
