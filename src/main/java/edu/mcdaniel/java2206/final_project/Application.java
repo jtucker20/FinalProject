@@ -62,8 +62,38 @@ public class Application {
         SpringApplication.run(Application.class, args);
 
         //===// User Defined Behavior //=========================================================//
+        DowFileReader dowFileReader;
+        List<Double> highs = null;
+        List<Date> dates = null;
+        try{
+            dowFileReader = new DowFileReader();
+            dowFileReader.setUp();
+            dowFileReader.read();
+            highs = dowFileReader.getDowHighs();
+            dates = dowFileReader.getDowDates();
+        } catch (DowFileReaderException dfre){
+            log.error(dfre);
+            throw new RuntimeException("Failed to run dow Reader", dfre);
+        }
 
-        String graph = (new Grapher(null, null, null)).drawLineGraph();
+        InflationRateFileReader inflationRateFileReader;
+        List<Double> rates = null;
+        List<Date> infDates = null;
+        try{
+            inflationRateFileReader = new InflationRateFileReader();
+            inflationRateFileReader.setUp();
+            inflationRateFileReader.read();
+
+            rates    = inflationRateFileReader.getInflationRates();
+            infDates = inflationRateFileReader.getInflationDates();
+        } catch (IOException | InflationRateFileReaderException irfre){
+            log.error(irfre);
+            throw new RuntimeException("Failed to run inflation rate Reader", irfre);
+        }
+        Grapher grapher = new Grapher(highs, rates, dates, infDates);
+        grapher.convert();
+        String graph = grapher.drawLineGraph();
+
         System.out.println(graph);
     }
 

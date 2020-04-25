@@ -8,9 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class will read a file.  We will manipulate the data later.
@@ -34,27 +32,27 @@ public class DowFileReader {
     /**
      * Field that will hold the values of Dow Opens
      */
-    private Map<Integer, Double> dowOpens;
+    private List<Double> dowOpens;
 
     /**
      * Field that will hold the values of Dow highs
      */
-    private Map<Integer, Double> dowHighs;
+    private List<Double> dowHighs;
 
     /**
      * Field that will hold the values of Dow lows
      */
-    private Map<Integer, Double> dowLows;
+    private List<Double> dowLows;
 
     /**
      * Field that will hold the values of Dow closes
      */
-    private Map<Integer, Double> dowClose;
+    private List<Double> dowClose;
 
     /**
      * Field that will hold the dates corresponding to the integer
      */
-    private Map<Integer, Date> dowDates;
+    private List<Date> dowDates;
 
 
     //=============================================================================================
@@ -67,7 +65,10 @@ public class DowFileReader {
     public DowFileReader() throws NullPointerException {
         // If this is called, we will use the internal file
         this.dowFile = new File(
-                this.getClass().getClassLoader().getResource("DJI.csv").getFile()
+                this.getClass()
+                        .getClassLoader()
+                        .getResource("DJI_Dec_31_2014_to_Dec_31_2018.csv")
+                        .getFile()
         );
         //NOTE!  YOU MUST CATCH FOR A BAD INITIALIZATION OF THIS FILE!! IT WILL THROW A
         //Null pointer exception if the file isn't found!
@@ -94,12 +95,12 @@ public class DowFileReader {
         }
 
         //Here we setup/instantiate the Map as a hash map to hold the data.
-        this.dowOpens = new HashMap<>();
-        this.dowHighs = new HashMap<>();
-        this.dowLows  = new HashMap<>();
-        this.dowClose = new HashMap<>();
+        this.dowOpens = new ArrayList<>();
+        this.dowHighs = new ArrayList<>();
+        this.dowLows  = new ArrayList<>();
+        this.dowClose = new ArrayList<>();
 
-        this.dowDates = new HashMap<>();
+        this.dowDates = new ArrayList<>();
     }
 
     /**
@@ -180,23 +181,23 @@ public class DowFileReader {
             int mn = Integer.parseInt(month) - 1;
             int dy = Integer.parseInt(day);
             Date dt = new Date(yr, mn, dy);
-            this.dowDates.put(linePos, dt);
+            this.dowDates.add(dt);
 
             //Open
             double opn = Double.parseDouble(open);
-            this.dowOpens.put(linePos, opn);
+            this.dowOpens.add(opn);
 
             //High
             double hgh = Double.parseDouble(high);
-            this.dowHighs.put(linePos, hgh);
+            this.dowHighs.add(hgh);
 
             //Low
             double lw = Double.parseDouble(low);
-            this.dowLows.put(linePos, lw);
+            this.dowLows.add(lw);
 
             //Close
             double cls = Double.parseDouble(close);
-            this.dowClose.put(linePos, cls);
+            this.dowClose.add(cls);
         }
     }
 
@@ -231,43 +232,43 @@ public class DowFileReader {
         return this.dowFile;
     }
 
-    public Map<Integer, Double> getDowOpens() {
+    public List<Double> getDowOpens() {
         return dowOpens;
     }
 
-    public void setDowOpens(Map<Integer, Double> dowOpens) {
+    public void setDowOpens(List<Double> dowOpens) {
         this.dowOpens = dowOpens;
     }
 
-    public Map<Integer, Double> getDowHighs() {
+    public List<Double> getDowHighs() {
         return dowHighs;
     }
 
-    public void setDowHighs(Map<Integer, Double> dowHighs) {
+    public void setDowHighs(List<Double> dowHighs) {
         this.dowHighs = dowHighs;
     }
 
-    public Map<Integer, Double> getDowLows() {
+    public List<Double> getDowLows() {
         return dowLows;
     }
 
-    public void setDowLows(Map<Integer, Double> dowLows) {
+    public void setDowLows(List<Double> dowLows) {
         this.dowLows = dowLows;
     }
 
-    public Map<Integer, Double> getDowClose() {
+    public List<Double> getDowClose() {
         return dowClose;
     }
 
-    public void setDowClose(Map<Integer, Double> dowClose) {
+    public void setDowClose(List<Double> dowClose) {
         this.dowClose = dowClose;
     }
 
-    public Map<Integer, Date> getDowDates() {
+    public List<Date> getDowDates() {
         return dowDates;
     }
 
-    public void setDowDates(Map<Integer, Date> dowDates) {
+    public void setDowDates(List<Date> dowDates) {
         this.dowDates = dowDates;
     }
 }

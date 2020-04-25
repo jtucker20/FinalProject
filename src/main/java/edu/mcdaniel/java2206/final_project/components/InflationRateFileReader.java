@@ -5,10 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class will read a file.  We will manipulate the data later.
@@ -32,12 +29,12 @@ public class InflationRateFileReader {
     /**
      * Field that will hold the values of interest
      */
-    private Map<Integer, Double> inflationRates;
+    private List<Double> inflationRates;
 
     /**
      * Field that will hold the dates corresponding to the integer
      */
-    private Map<Integer, Date> inflationDates;
+    private List<Date> inflationDates;
 
 
     //=============================================================================================
@@ -77,8 +74,8 @@ public class InflationRateFileReader {
         }
 
         //Here we setup/instantiate the Map as a hash map to hold the data.
-        this.inflationRates = new HashMap<>();
-        this.inflationDates = new HashMap<>();
+        this.inflationRates = new ArrayList<>();
+        this.inflationDates = new ArrayList<>();
     }
 
     /**
@@ -97,10 +94,10 @@ public class InflationRateFileReader {
 
         log.trace("File Validated. {}", this.irFile.getAbsolutePath());
         if(this.inflationRates == null){
-            this.inflationRates = new HashMap<>();
+            this.inflationRates = new ArrayList<>();
         }
         if(this.inflationDates == null){
-            this.inflationDates = new HashMap<>();
+            this.inflationDates = new ArrayList<>();
         }
 
         //Once we validate things are good, we try to read the lines of the file
@@ -153,25 +150,97 @@ public class InflationRateFileReader {
 
         //I am expecting that there will be 14 columns, All filled with data.
         if(lineParts.length == 14) {
-            String year = lineParts[0]; //Since the year is at pos 0;
-            String avg = lineParts[13]; //Since the average is at pos 13.
+            String yr  = lineParts[0]; //Since the year is at pos 0;
+            String jan = clean(lineParts[1]);
+            String feb = clean(lineParts[2]);
+            String mar = clean(lineParts[3]);
+            String apr = clean(lineParts[4]);
+            String may = clean(lineParts[5]);
+            String jun = clean(lineParts[6]);
+            String jul = clean(lineParts[7]);
+            String aug = clean(lineParts[8]);
+            String sep = clean(lineParts[9]);
+            String oct = clean(lineParts[10]);
+            String nov = clean(lineParts[11]);
+            String dec = clean(lineParts[12]);
+            String avg = clean(lineParts[13]); //Since the average is at pos 13.
 
             //Now to check we have values we are expecting!
-            if(year == null || year.isBlank() || year.isEmpty() || avg == null || avg.isBlank() || avg.isEmpty()){
-                throw new InflationRateFileReaderException("Bad Data in line " + linePos + " Line Value " + line);
+            if(yr == null || yr.isBlank() || yr.isEmpty()){
+                throw new InflationRateFileReaderException("Bad Data in line "
+                        + linePos + " Line Value " + line);
             }
 
+            int year = (Integer.parseInt(yr) - 1900);
+            if(year < (2014-1900)){
+                return;
+            }
+            //Here we set the dates
+            Date dateJan = new Date(year, Calendar.JANUARY, 31);
+            Date dateFeb = new Date(year, Calendar.FEBRUARY, 28);
+            Date dateMar = new Date(year, Calendar.MARCH, 31);
+            Date dateApr = new Date(year, Calendar.APRIL, 30);
+            Date dateMay = new Date(year, Calendar.MAY, 31);
+            Date dateJun = new Date(year, Calendar.JUNE, 30);
+            Date dateJul = new Date(year, Calendar.JULY, 31);
+            Date dateAug = new Date(year, Calendar.AUGUST, 31);
+            Date dateSep = new Date(year, Calendar.SEPTEMBER, 30);
+            Date dateOct = new Date(year, Calendar.OCTOBER, 31);
+            Date dateNov = new Date(year, Calendar.NOVEMBER, 30);
+            Date dateDec = new Date(year, Calendar.DECEMBER, 31);
 
-            //Here we set the date
-            Date date = new Date((Integer.parseInt(year) - 1900), Calendar.DECEMBER, 31);  // WE subtract 1900
-            // for some stupid reason.
-            this.inflationDates.put(linePos, date);
+            this.inflationDates.add(dateDec);
+            this.inflationDates.add(dateNov);
+            this.inflationDates.add(dateOct);
+            this.inflationDates.add(dateSep);
+            this.inflationDates.add(dateAug);
+            this.inflationDates.add(dateJul);
+            this.inflationDates.add(dateJun);
+            this.inflationDates.add(dateMay);
+            this.inflationDates.add(dateApr);
+            this.inflationDates.add(dateMar);
+            this.inflationDates.add(dateFeb);
+            this.inflationDates.add(dateJan);
+
+
             //Here we set the double
-            String cleanAvg = clean(avg);
-            double value = Double.parseDouble(cleanAvg);
-            this.inflationRates.put(linePos, value);
+            double valueDec = Double.parseDouble(dec);
+            this.inflationRates.add(valueDec);
 
-            log.info("We had date: {}, and rate: {}", date.toString(), value);
+            double valueNov = Double.parseDouble(nov);
+            this.inflationRates.add(valueNov);
+
+            double valueOct = Double.parseDouble(oct);
+            this.inflationRates.add(valueOct);
+
+            double valueSep = Double.parseDouble(sep);
+            this.inflationRates.add(valueSep);
+
+            double valueAug = Double.parseDouble(aug);
+            this.inflationRates.add(valueAug);
+
+            double valueJul = Double.parseDouble(jul);
+            this.inflationRates.add(valueJul);
+
+            double valueJun = Double.parseDouble(jun);
+            this.inflationRates.add(valueJun);
+
+            double valueMay = Double.parseDouble(may);
+            this.inflationRates.add(valueMay);
+
+            double valueApr = Double.parseDouble(apr);
+            this.inflationRates.add(valueApr);
+
+            double valueMar = Double.parseDouble(mar);
+            this.inflationRates.add(valueMar);
+
+            double valueFeb = Double.parseDouble(feb);
+            this.inflationRates.add(valueFeb);
+
+            double valueJan = Double.parseDouble(jan);
+            this.inflationRates.add(valueJan);
+
+//            log.info("We had date: {}, and rate: {}", dateDec.toString(), valueDec);
 
         } else if(lineParts.length == 0 ) {
             throw new InflationRateFileReaderException("Couldn't read line " + linePos);
@@ -219,19 +288,19 @@ public class InflationRateFileReader {
         return this.irFile;
     }
 
-    public Map<Integer, Double> getInflationRates() {
+    public List<Double> getInflationRates() {
         return inflationRates;
     }
 
-    public void setInflationRates(Map<Integer, Double> inflationRates) {
+    public void setInflationRates(List<Double> inflationRates) {
         this.inflationRates = inflationRates;
     }
 
-    public Map<Integer, Date> getInflationDates() {
+    public List<Date> getInflationDates() {
         return inflationDates;
     }
 
-    public void setInflationDates(Map<Integer, Date> inflationDates) {
+    public void setInflationDates(List<Date> inflationDates) {
         this.inflationDates = inflationDates;
     }
 }
