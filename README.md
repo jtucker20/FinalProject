@@ -1,5 +1,5 @@
-# Lab_7_8
-Lab 7/8 in the series!  This lab will deal with exceptions!
+# FINAL PROJECT
+Final Project!
 
 ##THIS TEMPLATE FILE MUST BE UPDATED FOR EVERY SINGLE PROJECT WITH:
 1. Purpose
