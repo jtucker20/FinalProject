@@ -6,7 +6,7 @@ public class DowFileReaderException extends Exception {
         super(message);
     }
     public DowFileReaderException(String message, Exception e){
-        super(message, e); //
+        super(message, e);
     }
 
 }
