@@ -5,9 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 public class InflationRateFileReaderException extends Exception {
 
-    public InflationRateFileReaderException(){
-        super();
-    }
+    public InflationRateFileReaderException() {}
 
     public InflationRateFileReaderException(String message){
         super(message);
