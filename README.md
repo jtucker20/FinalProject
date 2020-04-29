@@ -2,6 +2,6 @@
 Final Project!
 
 ##THIS TEMPLATE FILE MUST BE UPDATED FOR EVERY SINGLE PROJECT WITH:
-1. Purpose
-2. Problem being solved
-3. How to use program
+1. Use knowledge of file reading/writing, the List interface, and exceptions and exception handling 
+2. Finish the implementation of the system so that the market data is read, stored and lists, and properly plotted as shown in the assignment
+3. Run Application.java 
