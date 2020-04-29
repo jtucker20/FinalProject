@@ -92,7 +92,7 @@ public class DowFileReader {
     public void readLines() throws DowFileReaderException, IOException {
         //This is a try with resources block.  Inside of it, you have auto-closeable things, like a buffered reader
         // You use this EVERY time there is a resource with auto-closeable abilities.
-        try(FileReader fileReader = new FileReader(this.dowFile); //Here we make the file reader
+        try (FileReader fileReader = new FileReader(this.dowFile); //Here we make the file reader
             BufferedReader reader = new BufferedReader(fileReader)){  //Here we make a buffered reader
             String line = "";  //This will hold the lines from the file reader
             int linePos = 0;  //This will hold the position the data was taken from.
@@ -102,6 +102,8 @@ public class DowFileReader {
                 readAline(line, linePos);
                 linePos++;
             }
+        }catch(IOException ioe){
+            log.error("Error reading the lines encountered");
         }
     }
 
@@ -110,6 +112,23 @@ public class DowFileReader {
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
         //TODO: IMPLMENT THIS!!!!
+        if(linePos < 0 ){
+            throw new DowFileReaderException("Invalid Line Position" + linePos);
+        }
+        if(linePos < 756){
+            throw new DowFileReaderException("Not in 2018");
+        }
+
+        String[]lineParts = line.split(",");
+
+        if(lineParts.length == 7){
+            String date = lineParts[0];
+            String open = lineParts[1];
+            String high = lineParts[2];
+            String low = lineParts[3];
+            String close = lineParts[4];
+            String vol = lineParts[6];
+        }
     }
 
     //=============================================================================================
