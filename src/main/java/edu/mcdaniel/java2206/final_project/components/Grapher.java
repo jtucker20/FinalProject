@@ -17,7 +17,8 @@ public class Grapher {
     private List<Date> dates;
     private List<Date> inflationDates;
     private List<String> axisDates;
-    private static final SimpleDateFormat axisDateFormat = new SimpleDateFormat("yyyy-MM");
+    private static final SimpleDateFormat axisDateFormat =
+            new SimpleDateFormat("yyyy-MM");
 
     private double minVal;
     private double maxVal;
@@ -44,38 +45,14 @@ public class Grapher {
 
     public void convert(){
 
-        int numOfDates = this.dates.size();
-        this.axisDates = new ArrayList<>();
-        String first = axisDateFormat.format(this.dates.get(0));
-        this.axisDates.add(first);
-
-        //First third
-        int firstThird = numOfDates / 3;
-        String firstThirdStr = axisDateFormat.format(this.dates.get(firstThird));
-        this.axisDates.add(firstThirdStr);
-
-        //Second Third
-        int secondThrid = (2 * numOfDates) / 3;
-        String secondThirdStr = axisDateFormat.format(this.dates.get(secondThrid));
-        this.axisDates.add(secondThirdStr);
-
-        //Final
-        int finalPos = this.inputDow.size() - 1;
-        String finalStr = axisDateFormat.format(this.dates.get(this.dates.size() - 1));
-        this.axisDates.add(finalStr);
+        findTheDatesValues();
 
         //Find Min value:
         minVal = Collections.min(this.inputDow, null) - 10;
         maxVal = Collections.max(this.inputDow, null) + 10;
 
+        double quarter = getQuartersValuesVerticalAxis();
 
-        double span = (maxVal - minVal);
-        double quarter = span / 4;
-
-        for(double d : inputDow){
-            double finalVal = 100 * (d - minVal) / span;
-            dowData.add(finalVal);
-        }
         System.out.println("_________FINISHED SCALING DOW RAW __________");
 
         for(int idx = 0; idx < inputDow.size(); idx++){
@@ -89,14 +66,7 @@ public class Grapher {
                 i = i * (1 + (inflation.get(pos) / 100 /12));
                 pos++;
 
-                LocalDate localDateBegin = LocalDate.of(dDate.getYear(),
-                        dDate.getMonth() + 1, dDate.getDate());
-
-                LocalDate localDateEnd = LocalDate.of(iPosDate.getYear(),
-                        iPosDate.getMonth() + 1, iPosDate.getDate());
-
-                Period lengthOfPeriod = Period.between(localDateBegin, localDateEnd);
-                int monthsBetween = lengthOfPeriod.getYears() * 12 + lengthOfPeriod.getMonths();
+                int monthsBetween = getMonthsBetween(dDate, iPosDate);
                 if (monthsBetween < 1.5) {
 
                     iDate = iPosDate;
@@ -118,6 +88,10 @@ public class Grapher {
         }
         System.out.println("_________FINISHED SCALING DOW INF __________");
 
+        setVerticalAxis(quarter);
+    }
+
+    private void setVerticalAxis(double quarter) {
         graphVerAxis = new ArrayList<>();
 
         graphVerAxis.add(minVal); // 0%
@@ -132,9 +106,51 @@ public class Grapher {
         graphVerAxis.add(minValGraph + (2 * quarter)); // 50%
         graphVerAxis.add(minValGraph + (3 * quarter)); // 75%
         graphVerAxis.add(maxValGraph); // 100%
+    }
 
+    private int getMonthsBetween(Date dDate, Date iPosDate) {
+        LocalDate localDateBegin = LocalDate.of(dDate.getYear(),
+                dDate.getMonth() + 1, dDate.getDate());
 
+        LocalDate localDateEnd = LocalDate.of(iPosDate.getYear(),
+                iPosDate.getMonth() + 1, iPosDate.getDate());
 
+        Period lengthOfPeriod = Period.between(localDateBegin, localDateEnd);
+
+        return lengthOfPeriod.getYears() * 12 + lengthOfPeriod.getMonths();
+    }
+
+    private double getQuartersValuesVerticalAxis() {
+        double span = (maxVal - minVal);
+        double quarter = span / 4;
+
+        for(double d : inputDow){
+            double finalVal = 100 * (d - minVal) / span;
+            dowData.add(finalVal);
+        }
+
+        return quarter;
+    }
+
+    private void findTheDatesValues() {
+        int numOfDates = this.dates.size();
+        this.axisDates = new ArrayList<>();
+        String first = axisDateFormat.format(this.dates.get(0));
+        this.axisDates.add(first);
+
+        //First third
+        int firstThird = numOfDates / 3;
+        String firstThirdStr = axisDateFormat.format(this.dates.get(firstThird));
+        this.axisDates.add(firstThirdStr);
+
+        //Second Third
+        int secondThrid = (2 * numOfDates) / 3;
+        String secondThirdStr = axisDateFormat.format(this.dates.get(secondThrid));
+        this.axisDates.add(secondThirdStr);
+
+        //Final
+        String finalStr = axisDateFormat.format(this.dates.get(this.dates.size() - 1));
+        this.axisDates.add(finalStr);
     }
 
 
