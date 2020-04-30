@@ -122,7 +122,37 @@ public class DowFileReader {
      * Method to parse a single line
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
-        //TODO: IMPLMENT THIS!!!!
+        if(linePos == 0){
+            return;
+        }
+        String[] entries = line.split(","); //csv file, so each element is delimited by commas
+
+        if(entries.length == 7){
+            for(String entry : entries){
+                if(entry.isBlank())
+                    throw new DowFileReaderException("Missing data in line " + linePos + " Line Value " + line);
+            }
+            String dateStr = entries[0];
+            //Date date = new Date(entries[0]); //using Date(String s) constructor in Date class, which uses class' parse method
+            dowOpens.add(Double.parseDouble(entries[1]));
+            dowHighs.add(Double.parseDouble(entries[2]));
+            dowLows.add(Double.parseDouble(entries[3]));
+            dowCloses.add(Double.parseDouble(entries[4]));
+
+            String[] dateValues = dateStr.split("-");
+
+            int year = Integer.parseInt(dateValues[0]);
+            int month = Integer.parseInt(dateValues[1]);
+            int day = Integer.parseInt(dateValues[2]);
+            Date date = new Date(year, month, day);
+            dowDates.add(date);
+
+
+
+
+
+
+        }
     }
 
     //=============================================================================================
@@ -132,6 +162,7 @@ public class DowFileReader {
     public boolean validate(){
         return this.dowFile != null && this.dowFile.canRead();
     }
+
 
     //=============================================================================================
     // Getters and Setters
