@@ -1,6 +1,7 @@
 package edu.mcdaniel.java2206.final_project.components;
 
 import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
+import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,8 +30,12 @@ public class DowFileReader {
      */
     private File dowFile;
 
-    //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
+    private List<Double> dowOpens;
+    private List<Double> dowHighs;
+    private List<Double> dowLows;
+    private List<Double> dowCloses;
 
+    private List<Date> dowDates;
 
     //=============================================================================================
     // Constructor(s)
@@ -68,7 +73,15 @@ public class DowFileReader {
      * This major method initializes the file.
      */
     public void setUp() throws DowFileReaderException {
-        //TODO, DO any setup you need.
+        if(!validate()){
+            throw new DowFileReaderException("Invalid File Setup or Bad Permissions");
+        }
+        this.dowOpens = new LinkedList<>();
+        this.dowHighs = new LinkedList<>();
+        this.dowLows = new LinkedList<>();
+        this.dowCloses = new LinkedList<>();
+
+        this.dowDates = new LinkedList<>();
     }
 
     /**
@@ -116,7 +129,9 @@ public class DowFileReader {
     // Minor Methods(s)
     //=============================================================================================
 
-    //TODO Put in minor methods
+    public boolean validate(){
+        return this.dowFile != null && this.dowFile.canRead();
+    }
 
     //=============================================================================================
     // Getters and Setters
@@ -136,5 +151,38 @@ public class DowFileReader {
         return this.dowFile;
     }
 
-    //TODO IMPLEMENT THE GETTERS AND SETTERS!
+    public List<Double> getDowOpens(){
+        return this.dowOpens;
+    }
+    public void setDowOpens(List<Double> opens){
+        this.dowOpens = opens;
+    }
+
+    public List<Double> getDowHighs(){
+        return this.dowHighs;
+    }
+    public void setDowHighs(List<Double> highs){
+        this.dowHighs = highs;
+    }
+
+    public List<Double> getDowLows(){
+        return this.dowLows;
+    }
+    public void setDowLows(List<Double> lows){
+        this.dowLows = lows;
+    }
+
+    public List<Double> getDowCloses(){
+        return this.dowLows;
+    }
+    public void setDowCloses(List<Double> closes){
+        this.dowCloses = closes;
+    }
+
+    public List<Date> getDowDates(){
+        return this.dowDates;
+    }
+    public void setDowDates(List<Date> dates){
+        this.dowDates = dates;
+    }
 }
