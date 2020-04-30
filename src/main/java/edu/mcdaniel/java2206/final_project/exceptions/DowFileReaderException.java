@@ -13,7 +13,7 @@ public class DowFileReaderException extends Exception {
 
     public DowFileReaderException(String msg, Throwable throwable){
         super(msg, throwable);
-        Logger logger = LogManager.getLogger(InflationRateFileReaderException.class);
+        Logger logger = LogManager.getLogger(DowFileReaderException.class);
         logger.error("The program failed to: {}", msg);
         logger.error(throwable);
     }
