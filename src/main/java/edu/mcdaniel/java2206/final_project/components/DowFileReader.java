@@ -1,7 +1,6 @@
 package edu.mcdaniel.java2206.final_project.components;
 
 import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
-import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,7 +56,7 @@ public class DowFileReader {
         //Null pointer exception if the file isn't found!
     }
 
-    /*
+    /**
      * This one argument constructor will use the provided file.
      */
     public DowFileReader(File file){
@@ -71,6 +70,9 @@ public class DowFileReader {
 
     /**
      * This major method initializes the file.
+     * LinkedLists are used for fast list-building since the reader des not do much else with them...
+     * ...but considering the Grapher does loop through the lists provided to it,...
+     * I'm not sure whether ArrayLists<> should be used instead
      */
     public void setUp() throws DowFileReaderException {
         if(!validate()){
@@ -80,7 +82,6 @@ public class DowFileReader {
         this.dowHighs = new LinkedList<>();
         this.dowLows = new LinkedList<>();
         this.dowCloses = new LinkedList<>();
-
         this.dowDates = new LinkedList<>();
     }
 
@@ -125,33 +126,34 @@ public class DowFileReader {
         if(linePos == 0){
             return;
         }
-        String[] entries = line.split(","); //csv file, so each element is delimited by commas
+        String[] entries = line.split(","); /*csv file, so each element is delimited by commas...*/
 
-        if(entries.length == 7){
+        if(entries.length >= 5){                  /*...requires that entries for date, open, high, low, and close are populated in each line...*/
             for(String entry : entries){
-                if(entry.isBlank())
-                    throw new DowFileReaderException("Missing data in line " + linePos + " Line Value " + line);
+                if(entry.isBlank()) {
+                    missingData(linePos, line);
+                    return;                      /*...and skips otherwise*/
+                    //throw new DowFileReaderException("Missing data in line " + linePos + " Line Value " + line);
+                }
             }
-            String dateStr = entries[0];
-            //Date date = new Date(entries[0]); //using Date(String s) constructor in Date class, which uses class' parse method
-            dowOpens.add(Double.parseDouble(entries[1]));
-            dowHighs.add(Double.parseDouble(entries[2]));
-            dowLows.add(Double.parseDouble(entries[3]));
-            dowCloses.add(Double.parseDouble(entries[4]));
 
-            String[] dateValues = dateStr.split("-");
+                                                /*Declaring this counting variable outside of the scope of the try-catch statements...*/
+            int i = 0;                          /* allows error message to provide... */
+            try{                                /*...the exact entry that produced the error */
+                dowDates.add(getDate(entries[i])); /*the code assumes relevant data to be in entries[0]...*/
+                dowOpens.add(Double.parseDouble(entries[++i])); /*...entries[1]...*/
+                dowHighs.add(Double.parseDouble(entries[++i])); /*...entries[2]...*/
+                dowLows.add(Double.parseDouble(entries[++i]));  /*...entries[3]...*/
+                dowCloses.add(Double.parseDouble(entries[++i]));/*...and entries[4], as is the case in the provided csv */
+            }
+            catch(Exception e){
+                throw new DowFileReaderException("Bad data in " + entryPos(i) + " entry of line " + linePos + ": " + line);
+            }                                   /*there aren't any entries in the dow file that would require this code, */
+                                                /*but it seems like sensible to......trap for Format Exceptions*/
 
-            int year = Integer.parseInt(dateValues[0]);
-            int month = Integer.parseInt(dateValues[1]);
-            int day = Integer.parseInt(dateValues[2]);
-            Date date = new Date(year, month, day);
-            dowDates.add(date);
-
-
-
-
-
-
+        }
+        else {
+            missingData(linePos, line);
         }
     }
 
@@ -159,8 +161,41 @@ public class DowFileReader {
     // Minor Methods(s)
     //=============================================================================================
 
-    public boolean validate(){
+    private boolean validate(){
         return this.dowFile != null && this.dowFile.canRead();
+    }
+
+    /**
+     * entryPos() method converts index value to ordinal adjective (for clarity) when reporting the location of bad data
+     */
+    private String entryPos(int i){
+        Map<Integer, String> entryPosMap = new HashMap<>();
+        entryPosMap.put(0, "first");
+        entryPosMap.put(1, "second");
+        entryPosMap.put(2, "third");
+        entryPosMap.put(3, "fourth");
+        entryPosMap.put(4, "fifth");
+        System.out.println(i);
+        return entryPosMap.get(i);
+    }
+
+    /**
+     * missingDate() logs an error message when it has to skip an underpopulated line in the .csv
+     */
+    private void missingData(int linePos, String line){
+        log.error("Missing data in line " + linePos + " Line Value " + line);
+    }
+
+    /**
+     * getDate() receives a string containing date from readALine() and returns a Date object
+     */
+    private Date getDate(String dateEntry) throws NumberFormatException {
+        String[] dateValues = dateEntry.split("-");  /*...and is in yyyy-mm-dd format, as is the case with the given .csv */
+
+        int year = Integer.parseInt(dateValues[0]) - 1900;  /*Date class requires that 1900 be subtracted from the year... */
+        int month = Integer.parseInt(dateValues[1]) - 1;    /*...and that the month value range from 0 to 11...*/
+        int day = Integer.parseInt(dateValues[2]);
+        return new Date(year, month, day);                  /*...when initializing a Date object with integers*/
     }
 
 
@@ -182,37 +217,72 @@ public class DowFileReader {
         return this.dowFile;
     }
 
+    /**
+     * gets list of Dow open values
+     */
     public List<Double> getDowOpens(){
         return this.dowOpens;
     }
+
+    /**
+     * allows client program to set Dow open values list, for whatever reason
+     */
     public void setDowOpens(List<Double> opens){
         this.dowOpens = opens;
     }
 
+    /**
+     * gets list of Dow high values
+     */
     public List<Double> getDowHighs(){
         return this.dowHighs;
     }
+
+    /**
+     * allows client program to set Dow high values list, for whatever reason
+     */
     public void setDowHighs(List<Double> highs){
         this.dowHighs = highs;
     }
 
+    /**
+     * gets list of Dow low values
+     */
     public List<Double> getDowLows(){
         return this.dowLows;
     }
+
+    /**
+     * allows client program to set Dow low values list, for whatever reason
+     */
     public void setDowLows(List<Double> lows){
         this.dowLows = lows;
     }
 
+    /**
+     * gets list of Dow close values
+     */
     public List<Double> getDowCloses(){
         return this.dowLows;
     }
+
+    /**
+     * allows client program to set Dow close values, for whatever reason
+     */
     public void setDowCloses(List<Double> closes){
         this.dowCloses = closes;
     }
 
+    /**
+     * gets list of Dow dates
+     */
     public List<Date> getDowDates(){
         return this.dowDates;
     }
+
+    /**
+     * allows client program to set Dow dates, for whatever reason
+     */
     public void setDowDates(List<Date> dates){
         this.dowDates = dates;
     }
