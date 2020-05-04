@@ -31,6 +31,27 @@ public class DowFileReader {
 
     //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
 
+    /**
+     * Field that will hold the values of Dow Opens
+     */
+    private Map<Integer, Double> dowOpens;
+
+    /**
+     * Field that will hold the values of Dow highs
+     */
+    private Map<Integer, Double> dowHighs;
+
+    /**
+     * Field that will hold the values of Dow lows
+     */
+    private Map<Integer, Double> dowLows;
+
+    /**
+     * Field that will hold the values of Dow closes
+     */
+    private Map<Integer, Double> dowClose;
+
+
 
     //=============================================================================================
     // Constructor(s)
