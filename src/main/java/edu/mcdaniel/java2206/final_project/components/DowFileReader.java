@@ -148,10 +148,10 @@ public class DowFileReader {
                     Integer.parseInt(dt.substring(8,10))
             );
 
-            String open = lineParts[1];
-            String high = lineParts[2];
-            String low = lineParts[3];
-            String close = lineParts[4];
+            String open = lineParts[1];//We find open at position one on the line
+            String high = lineParts[2];//High at position 2
+            String low = lineParts[3];//So on
+            String close = lineParts[4];//And so forth
 
             this.dowDates.add(date);
 
@@ -197,6 +197,9 @@ public class DowFileReader {
     /**
      * Just to get the file itself
      */
+
+    //The following getters and setters are similar to that of the inflation rate file reader
+    //I put them in doublets to make it easy to read
     public File getFile(){
         return this.dowFile;
     }
