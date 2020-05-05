@@ -34,22 +34,27 @@ public class DowFileReader {
     /**
      * Field that will hold the values of Dow Opens
      */
-    private Map<Integer, Double> dowOpens;
+    private List<Double> dowOpens;
 
     /**
      * Field that will hold the values of Dow highs
      */
-    private Map<Integer, Double> dowHighs;
+    private List<Double> dowHighs;
 
     /**
      * Field that will hold the values of Dow lows
      */
-    private Map<Integer, Double> dowLows;
+    private List<Double> dowLows;
 
     /**
      * Field that will hold the values of Dow closes
      */
-    private Map<Integer, Double> dowClose;
+    private List<Double> dowClose;
+
+    /**
+     * Field that will hold the dates
+     */
+    private List<Date> dowDates;
 
 
 
