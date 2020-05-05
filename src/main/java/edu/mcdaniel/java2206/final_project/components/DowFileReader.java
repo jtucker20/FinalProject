@@ -1,6 +1,7 @@
 package edu.mcdaniel.java2206.final_project.components;
 
 import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
+import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,6 +96,8 @@ public class DowFileReader {
      */
     public void setUp() throws DowFileReaderException {
         //TODO, DO any setup you need.
+
+
     }
 
     /**
