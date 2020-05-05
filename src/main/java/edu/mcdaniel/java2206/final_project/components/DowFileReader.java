@@ -102,7 +102,7 @@ public class DowFileReader {
             readLines();
         } catch (Exception ioe){
             //If we get an exception of any type we need to stop execution and throw this information to the user.
-            throw new DowFileReaderException("Error parsing in the data!", ioe);
+//            throw new DowFileReaderException("Error parsing in the data!", ioe);
         }
     }
 
@@ -110,7 +110,7 @@ public class DowFileReader {
      * Line reader functionality
      */
     //DO NOT MODIFY THIS BEHAVIOR.
-    public void readLines() throws DowFileReaderException, IOException {
+    public void readLines() throws DowFileReaderException {
         //This is a try with resources block.  Inside of it, you have auto-closeable things, like a buffered reader
         // You use this EVERY time there is a resource with auto-closeable abilities.
         try(FileReader fileReader = new FileReader(this.dowFile); //Here we make the file reader
@@ -123,6 +123,11 @@ public class DowFileReader {
                 readAline(line, linePos);
                 linePos++;
             }
+        } catch(IOException ioe){
+            String message = "Error Reading Lines Encountered.";
+            log.error(message);
+            log.error(ioe);
+//            throw new DowFileReaderException(message, ioe);
         }
     }
 
@@ -130,7 +135,7 @@ public class DowFileReader {
      * Method to parse a single line
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
-        //TODO: IMPLMENT THIS!!!!
+        //TODO: IMPLEMENT THIS!!!!
     }
 
     //=============================================================================================

@@ -81,7 +81,6 @@ public class InflationRateFileReader {
     /**
      * Major method to read in the data
      */
-    //Pretend that our requirements changed to allow only IOEXCEPTIONS.
     public void read() throws IOException {
         if(!validate()){
             if(this.irFile == null){
@@ -163,7 +162,7 @@ public class InflationRateFileReader {
             String oct = clean(lineParts[10]);
             String nov = clean(lineParts[11]);
             String dec = clean(lineParts[12]);
-            String avg = clean(lineParts[13]); //Since the average is at pos 13.
+//            String avg = clean(lineParts[13]); //Since the average is at pos 13.
 
             //Now to check we have values we are expecting!
             if(yr == null || yr.isBlank() || yr.isEmpty()){
