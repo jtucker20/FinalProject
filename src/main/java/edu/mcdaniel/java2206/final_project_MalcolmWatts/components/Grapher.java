@@ -1,4 +1,4 @@
-package edu.mcdaniel.java2206.final_project.components;
+package edu.mcdaniel.java2206.final_project_MalcolmWatts.components;
 
 import com.googlecode.charts4j.*;
 

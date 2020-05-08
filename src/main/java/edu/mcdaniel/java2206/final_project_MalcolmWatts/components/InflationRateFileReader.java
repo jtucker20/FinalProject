@@ -1,6 +1,6 @@
-package edu.mcdaniel.java2206.final_project.components;
+package edu.mcdaniel.java2206.final_project_MalcolmWatts.components;
 
-import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
+import edu.mcdaniel.java2206.final_project_MalcolmWatts.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

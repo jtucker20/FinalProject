@@ -1,6 +1,6 @@
-package edu.mcdaniel.java2206.final_project.components;
+package edu.mcdaniel.java2206.final_project_MalcolmWatts.components;
 
-import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
+import edu.mcdaniel.java2206.final_project_MalcolmWatts.exceptions.DowFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,9 +27,13 @@ public class DowFileReader {
     /**
      * File that will hold the link to the Dow Data
      */
+    //ENCAPSULATION
     private File dowFile;
-
-    //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
+    private List<Double> dowOpens;
+    private List<Double> dowCloses;
+    private List<Double> dowHighs;
+    private List<Double> dowLows;
+    private List<Date> dowDates;
 
 
     //=============================================================================================
@@ -68,7 +72,13 @@ public class DowFileReader {
      * This major method initializes the file.
      */
     public void setUp() throws DowFileReaderException {
-        //TODO, DO any setup you need.
+        this.dowOpens = new ArrayList<>();
+        this.dowHighs = new ArrayList<>();
+        this.dowLows = new ArrayList<>();
+        this.dowCloses = new ArrayList<>();
+        this.dowDates = new ArrayList<>();
+
+
     }
 
     /**
@@ -114,14 +124,52 @@ public class DowFileReader {
      * Method to parse a single line
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
-        //TODO: IMPLEMENT THIS!!!!
+        //SETUP
+        String[] lineSection = line.split(", ");
+        String n = lineSection[0];
+
+        //IF BLOCK
+        if (lineSection.length >= 7) {
+
+            //PARSE DATE
+            Date dowDate = new Date(
+                    Integer.parseInt(n.substring(0,4))-1900,
+                    Integer.parseInt(n.substring(5,7))-1,
+                    Integer.parseInt(n.substring(8,9))-1
+            );
+
+            //POSITION OF EACH STRING IN THE ARRAY
+            String sOpen = lineSection[1];
+            String sHigh = lineSection[2];
+            String sLow = lineSection[3];
+            String sClose = lineSection[4];
+
+            //PARSE
+            this.dowDates.add(dowDate);
+            double dataOpen = Double.parseDouble(sOpen);
+            this.dowOpens.add(dataOpen);
+            double dataHigh = Double.parseDouble(sHigh);
+            this.dowHighs.add(dataHigh);
+            double dataLows = Double.parseDouble(sLow);
+            this.dowLows.add(dataLows);
+            double dataClose = Double.parseDouble(sClose);
+            this.dowCloses.add(dataClose);
+
+        }
+
+        //EXIT
+        else{
+            System.exit(0);
+        }
+
     }
+
 
     //=============================================================================================
     // Minor Methods(s)
     //=============================================================================================
 
-    //TODO Put in minor methods
+
 
     //=============================================================================================
     // Getters and Setters
@@ -137,9 +185,41 @@ public class DowFileReader {
     /**
      * Just to get the file itself
      */
+    //GETTERS
     public File getFile(){
         return this.dowFile;
     }
+    public List<Double> getDowOpens(){
+        return this.dowOpens;
+    }
+    public List<Double> getDowHighs(){
+        return this.dowHighs;
+    }
+    public List<Double> getDowLows(){
+        return this.dowLows;
+    }
+    public List<Double> getDowCloses(){
+        return this.dowCloses;
+    }
+    public List<Date> getDowDates(){
+        return this.dowDates;
+    }
 
-    //TODO IMPLEMENT THE GETTERS AND SETTERS!
+    //SETTERS
+    public void setDowOpens(List<Double> dowOpens){
+        this.dowOpens = dowOpens;
+    }
+    public void setDowHighs(List<Double> dowHighs){
+        this.dowHighs = dowHighs;
+    }
+    public void setDowLows(List<Double> dowLows){
+        this.dowLows = dowLows;
+    }
+    public void setDowCloses(List<Double> dowCloses){
+        this.dowCloses = dowCloses;
+    }
+    public void setDowDates(List<Date> dowDates){
+        this.dowDates = dowDates;
+    }
+
 }

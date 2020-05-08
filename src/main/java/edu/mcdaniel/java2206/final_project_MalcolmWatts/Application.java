@@ -1,8 +1,8 @@
-package edu.mcdaniel.java2206.final_project;
+package edu.mcdaniel.java2206.final_project_MalcolmWatts;
 
-import edu.mcdaniel.java2206.final_project.components.*;
-import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
-import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
+import edu.mcdaniel.java2206.final_project_MalcolmWatts.components.*;
+import edu.mcdaniel.java2206.final_project_MalcolmWatts.exceptions.DowFileReaderException;
+import edu.mcdaniel.java2206.final_project_MalcolmWatts.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
