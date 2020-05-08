@@ -1,6 +1,7 @@
 package edu.mcdaniel.java2206.final_project.components;
 
 import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
+import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,6 +29,15 @@ public class DowFileReader {
      * File that will hold the link to the Dow Data
      */
     private File dowFile;
+
+    //Below are assests to hold data
+    private List<Double> dowOpens;
+    private List<Double> dowHighs;
+    private List<Double> dowLows;
+    private List<Double> dowCloses;
+
+    //For dates
+    private List<Date> dowDates;
 
     //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
 
@@ -67,9 +77,17 @@ public class DowFileReader {
     /**
      * This major method initializes the file.
      */
-    public void setUp() throws DowFileReaderException {
-        //TODO, DO any setup you need.
-    }
+    public void setUp() throws DowFileReaderException
+    {
+        if(!validate())
+        {
+            throw new DowFileReaderException("Invalid File Setup.");
+        }
+
+        //Here we setup/instantiate the Map as a hash map to hold the data.
+       // this.inflationRates = new ArrayList<>();
+        //this.inflationDates = new ArrayList<>();
+        }
 
     /**
      * Major method to read in the data
@@ -114,14 +132,76 @@ public class DowFileReader {
      * Method to parse a single line
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
-        //TODO: IMPLEMENT THIS!!!!
+
+        if(linePos < 0)
+        {
+            throw new DowFileReaderException("Wrong Line Position: " + linePos);
+        }
+
+        if(linePos == 0)
+        {
+            return; //Dont wanna read first line
+        }
+
+        if(linePos < 3)
+        {
+            return;  // as to not include the header lines
+        }
+
+
+        String[] lineParts = line.split(","); // split on commas since file is comma seperated.
+        String la = lineParts[0];
+
+        if(lineParts.length == 7)   //there should be 7 columns unlike 14 in InffationReader
+        {
+            Date date = new Date(Integer.parseInt(la.substring(0, 4)) - 1900,   //date class requires this
+                    Integer.parseInt(la.substring(5, 7)) - 1,
+                    Integer.parseInt(la.substring(8, 10)));
+
+
+            String open = lineParts[1]; //Based on the position on the line open being first and others to follow
+            String high = lineParts[2];
+            String low = lineParts[3];
+            String close = lineParts[4];
+
+            this.dowDates.add(date);   //Basically the same as InflationReader
+
+            double valOpen = Double.parseDouble(open);
+            this.dowOpens.add(valOpen);
+
+            double valHigh = Double.parseDouble(high);
+            this.dowHighs.add(valHigh);
+
+            double valLows = Double.parseDouble(low);
+            this.dowLows.add(valLows);
+
+            double valClose = Double.parseDouble(close);
+            this.dowCloses.add(valClose);
+
+        }
     }
 
     //=============================================================================================
     // Minor Methods(s)
     //=============================================================================================
 
-    //TODO Put in minor methods
+    /**
+     * validation method.
+     * @return true if valid.
+     */
+    public boolean validate()
+         {
+            return this.dowFile != null && this.dowFile.canRead();
+         }
+
+    /**
+     * Percent from string remover
+     */
+    private String clean(String input)
+        {
+             return input.substring(0, 8);
+        }
+
 
     //=============================================================================================
     // Getters and Setters
@@ -141,5 +221,55 @@ public class DowFileReader {
         return this.dowFile;
     }
 
-    //TODO IMPLEMENT THE GETTERS AND SETTERS!
+    //Gets the file itself just like in InflationRateFileReader
+
+         public List<Double> getDowOpens()
+         {
+             return this.dowOpens;
+         }
+         public void setDowOpens(List<Double> dowOpens)
+         {
+             this.dowOpens = dowOpens;
+         }
+
+
+         public List<Double> getDowHighs()
+         {
+             return this.dowHighs;
+         }
+         public void setDowHighs(List<Double> dowHighs)
+         {
+             this.dowHighs = dowHighs;
+         }
+
+
+         public List<Double> getDowLows()
+         {
+             return this.dowLows;
+         }
+         public void setDowLows(List<Double> dowLows)
+         {
+             this.dowLows = dowLows;
+         }
+
+
+         public List<Double> getDowCloses()
+         {
+             return this.dowCloses;
+         }
+         public void setDowCloses(List<Double> dowCloses)
+         {
+             this.dowCloses = dowCloses;
+         }
+
+
+         public List<Date> getDowDates() //Uses Date instead of Double
+         {
+             return this.dowDates;
+         }
+         public void setDowDates(List<Double> dowDates)
+         {
+             this.dowDates = dowDates;
+         }
+
 }
