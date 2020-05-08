@@ -8,10 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class will read a file.  We will manipulate the data later.
@@ -95,12 +92,12 @@ public class DowFileReader {
         }
 
         //Here we setup/instantiate the Map as a hash map to hold the data.
-        this.dowOpens = new
-        this.dowHighs = new
-        this.dowLows  = new
-        this.dowClose = new
+        this.dowOpens = new ArrayList<Double>();
+        this.dowHighs = new ArrayList<Double>();
+        this.dowLows  = new ArrayList<Double>();
+        this.dowClose = new ArrayList<Double>();
 
-        this.dowDates = new
+        this.dowDates = new ArrayList<Date>();
     }
 
     /**
@@ -180,23 +177,23 @@ public class DowFileReader {
             int mn = Integer.parseInt(month) - 1;
             int dy = Integer.parseInt(day);
             Date dt = new Date(yr, mn, dy);
-            this.dowDates.put(linePos, dt);
+            this.dowDates.add(linePos, dt);
 
             //Open
             double opn = Double.parseDouble(open);
-            this.dowOpens.put(linePos, opn);
+            this.dowOpens.add(linePos, opn);
 
             //High
             double hgh = Double.parseDouble(high);
-            this.dowHighs.put(linePos, hgh);
+            this.dowHighs.add(linePos, hgh);
 
             //Low
             double lw = Double.parseDouble(low);
-            this.dowLows.put(linePos, lw);
+            this.dowLows.add(linePos, lw);
 
             //Close
             double cls = Double.parseDouble(close);
-            this.dowClose.put(linePos, cls);
+            this.dowClose.add(linePos, cls);
         }
     }
 
