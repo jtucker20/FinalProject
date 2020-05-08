@@ -267,7 +267,7 @@ public class DowFileReader {
          {
              return this.dowDates;
          }
-         public void setDowDates(List<Double> dowDates)
+         public void setDowDates(List<Date> dowDates)
          {
              this.dowDates = dowDates;
          }
