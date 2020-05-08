@@ -100,11 +100,11 @@ public class Application {
             dowFileReader.setUp();
             dowFileReader.read();
 
-            Map<Integer, Double> opens = dowFileReader.getDowOpens();
-            Map<Integer, Double> highs = dowFileReader.getDowHighs();
-            Map<Integer, Double> lows = dowFileReader.getDowLows();
-            Map<Integer, Double> closes = dowFileReader.getDowClose();
-            Map<Integer, Date> dates = dowFileReader.getDowDates();
+            List<Double> opens = dowFileReader.getDowOpens();
+            List<Double> highs = dowFileReader.getDowHighs();
+            List<Double> lows = dowFileReader.getDowLows();
+            List<Double> closes = dowFileReader.getDowClose();
+            List<Date> dates = dowFileReader.getDowDates();
 
             converter.inputDowData(opens, highs, lows, closes, dates);
 
