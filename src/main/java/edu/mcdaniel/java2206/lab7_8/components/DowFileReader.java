@@ -104,7 +104,6 @@ public class DowFileReader {
      * Major method to read in the data
      */
     public void read() throws DowFileReaderException {
-        //TODO: FINISH THIS CHECK!!!
         if(!validate() || this.dowOpens == null || this.dowHighs == null
             || this.dowLows == null || this.dowClose == null || this.dowDates == null){
             //We validate that all parts are actually active
