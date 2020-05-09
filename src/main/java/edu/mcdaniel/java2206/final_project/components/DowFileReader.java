@@ -1,6 +1,7 @@
 package edu.mcdaniel.java2206.final_project.components;
 
 import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
+import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +31,11 @@ public class DowFileReader {
     private File dowFile;
 
     //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
+    private List<Double> dowOpens;
+    private List<Double> dowHighs;
+    private List<Double> dowLows;
+    private List<Double> dowCloses;
+    private List<Double> dowDates;
 
 
     //=============================================================================================
