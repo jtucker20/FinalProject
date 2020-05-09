@@ -55,7 +55,7 @@ public class Application {
      * This method actually accomplishes the running of the code we are seeking to write
      * @param args the input from the command line.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
 
         //===// Spring Application Hook //=======================================================//
         SpringApplication.run(Application.class, args);
@@ -69,8 +69,8 @@ public class Application {
             dowFileReader.setUp();
             dowFileReader.read();
 
-//            highs = dowFileReader.getDowHighs();
-//            dates = dowFileReader.getDowDates();
+            highs = dowFileReader.getDowHighs();
+            dates = dowFileReader.getDowDates();
         } catch (DowFileReaderException dfre){
             log.error(dfre);
             throw new RuntimeException("Failed to run dow Reader", dfre);

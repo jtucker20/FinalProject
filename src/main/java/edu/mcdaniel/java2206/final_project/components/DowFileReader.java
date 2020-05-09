@@ -1,7 +1,6 @@
 package edu.mcdaniel.java2206.final_project.components;
 
 import edu.mcdaniel.java2206.final_project.exceptions.DowFileReaderException;
-import edu.mcdaniel.java2206.final_project.exceptions.InflationRateFileReaderException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,7 +75,7 @@ public class DowFileReader {
     public void setUp() throws DowFileReaderException {
         //TODO, DO any setup you need.
 
-        if (!validate()) {
+        if(!validate()){
             throw new DowFileReaderException("Invalid File Setup");
         }
 
@@ -122,7 +121,7 @@ public class DowFileReader {
             String message = "Error Reading Lines Encountered.";
             log.error(message);
             log.error(ioe);
-//            throw new DowFileReaderException(message, ioe);
+//           throw new DowFileReaderException(message, ioe);
         }
     }
 
@@ -139,14 +138,14 @@ public class DowFileReader {
         }
 
         String[] lineParts = line.split(",");
-        String dx = lineParts[0];
+        String dc = lineParts[0];
 
         if (lineParts.length == 7) {
 
             Date date = new Date(
-                    Integer.parseInt(dx.substring(0, 4)) - 1900,
-                    Integer.parseInt(dx.substring(5, 7)) - 1,
-                    Integer.parseInt(dx.substring(8, 10)));
+                    Integer.parseInt(dc.substring(0, 4)) - 1900,
+                    Integer.parseInt(dc.substring(5, 7)) - 1,
+                    Integer.parseInt(dc.substring(8, 10)));
 
             String open = lineParts[1];
             String high = lineParts[2];
