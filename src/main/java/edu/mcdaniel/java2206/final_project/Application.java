@@ -69,8 +69,8 @@ public class Application {
             dowFileReader.setUp();
             dowFileReader.read();
 
-//            highs = dowFileReader.getDowHighs();
-//            dates = dowFileReader.getDowDates();
+            highs = dowFileReader.getDowHighs();
+            dates = dowFileReader.getDowDates();
         } catch (DowFileReaderException dfre){
             log.error(dfre);
             throw new RuntimeException("Failed to run dow Reader", dfre);
