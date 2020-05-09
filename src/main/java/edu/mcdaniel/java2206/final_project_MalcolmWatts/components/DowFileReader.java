@@ -91,7 +91,7 @@ public class DowFileReader {
             readLines();
         } catch (Exception ioe){
             //If we get an exception of any type we need to stop execution and throw this information to the user.
-//            throw new DowFileReaderException("Error parsing in the data!", ioe);
+            throw new DowFileReaderException("Error parsing in the data!", ioe);
         }
     }
 
@@ -116,7 +116,7 @@ public class DowFileReader {
             String message = "Error Reading Lines Encountered.";
             log.error(message);
             log.error(ioe);
-//            throw new DowFileReaderException(message, ioe);
+            throw new DowFileReaderException(message, ioe);
         }
     }
 
@@ -138,7 +138,7 @@ public class DowFileReader {
             Date dowDate = new Date(
                     Integer.parseInt(n.substring(0,4))-1900,
                     Integer.parseInt(n.substring(5,7))-1,
-                    Integer.parseInt(n.substring(8,9))-1
+                    Integer.parseInt(n.substring(8,9))
             );
 
             //PARSE
