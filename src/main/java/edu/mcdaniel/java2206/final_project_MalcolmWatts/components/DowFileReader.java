@@ -125,7 +125,10 @@ public class DowFileReader {
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
         //SETUP
-        String[] lineSection = line.split(", ");
+        if(linePos == 0){
+            return;
+        }
+        String[] lineSection = line.split(",");
         String n = lineSection[0];
 
         //IF BLOCK
@@ -138,29 +141,24 @@ public class DowFileReader {
                     Integer.parseInt(n.substring(8,9))-1
             );
 
-            //POSITION OF EACH STRING IN THE ARRAY
-            String open = lineSection[1];
-            String high = lineSection[2];
-            String low = lineSection[3];
-            String close = lineSection[4];
-
             //PARSE
             this.dowDates.add(dowDate);
-            double dataOpen = Double.parseDouble(open);
+            double dataOpen = Double.parseDouble(lineSection[1]);
             this.dowOpens.add(dataOpen);
-            double dataHigh = Double.parseDouble(high);
+            double dataHigh = Double.parseDouble(lineSection[2]);
             this.dowHighs.add(dataHigh);
-            double dataLows = Double.parseDouble(low);
+            double dataLows = Double.parseDouble(lineSection[3]);
             this.dowLows.add(dataLows);
-            double dataClose = Double.parseDouble(close);
+            double dataClose = Double.parseDouble(lineSection[4]);
             this.dowCloses.add(dataClose);
-            System.exit(0);
+
         }
 
-        //EXIT
-        //else{
-          //  System.exit(0);
-        //}
+        //ERROR
+        /*else{
+            throw new DowFileReaderException("INVALID DATA IN " + linePos);
+        }
+         */
 
     }
 
