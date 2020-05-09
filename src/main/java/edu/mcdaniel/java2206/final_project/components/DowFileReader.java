@@ -225,7 +225,7 @@ public class DowFileReader {
         this.dowLows = dowLows;}
 
     public List<Double>getDowCloses(){
-        return this.dowCloses;}
+        return this.dowCloses;
 
     }
     public void setDowCloses(List<Double> dowCloses){
