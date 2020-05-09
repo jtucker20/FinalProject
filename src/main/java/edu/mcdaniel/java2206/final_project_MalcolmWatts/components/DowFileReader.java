@@ -129,7 +129,7 @@ public class DowFileReader {
         String n = lineSection[0];
 
         //IF BLOCK
-        if (lineSection.length >= 7) {
+        if (lineSection.length >= 5) {
 
             //PARSE DATE
             Date dowDate = new Date(
@@ -139,28 +139,28 @@ public class DowFileReader {
             );
 
             //POSITION OF EACH STRING IN THE ARRAY
-            String sOpen = lineSection[1];
-            String sHigh = lineSection[2];
-            String sLow = lineSection[3];
-            String sClose = lineSection[4];
+            String open = lineSection[1];
+            String high = lineSection[2];
+            String low = lineSection[3];
+            String close = lineSection[4];
 
             //PARSE
             this.dowDates.add(dowDate);
-            double dataOpen = Double.parseDouble(sOpen);
+            double dataOpen = Double.parseDouble(open);
             this.dowOpens.add(dataOpen);
-            double dataHigh = Double.parseDouble(sHigh);
+            double dataHigh = Double.parseDouble(high);
             this.dowHighs.add(dataHigh);
-            double dataLows = Double.parseDouble(sLow);
+            double dataLows = Double.parseDouble(low);
             this.dowLows.add(dataLows);
-            double dataClose = Double.parseDouble(sClose);
+            double dataClose = Double.parseDouble(close);
             this.dowCloses.add(dataClose);
-
+            System.exit(0);
         }
 
         //EXIT
-        else{
-            System.exit(0);
-        }
+        //else{
+          //  System.exit(0);
+        //}
 
     }
 
