@@ -65,7 +65,8 @@ public class DowFileReader {
     /*
      * This one argument constructor will use the provided file.
      */
-    public DowFileReader(File file){
+    public DowFileReader(File file)
+    {
         this.dowFile = file;  //Assumes this is not null...
     }
 
@@ -87,6 +88,14 @@ public class DowFileReader {
         //Here we setup/instantiate the Map as a hash map to hold the data.
        // this.inflationRates = new ArrayList<>();
         //this.inflationDates = new ArrayList<>();
+
+
+        this.dowHighs = new ArrayList<>();
+        this.dowLows = new ArrayList<>();
+        this.dowOpens = new ArrayList<>();
+        this.dowCloses = new ArrayList<>();
+        this.dowDates = new ArrayList<>();
+        //instantiates all the ArrayLists like in example above from inflationReader
         }
 
     /**
@@ -99,7 +108,7 @@ public class DowFileReader {
             readLines();
         } catch (Exception ioe){
             //If we get an exception of any type we need to stop execution and throw this information to the user.
-//            throw new DowFileReaderException("Error parsing in the data!", ioe);
+            throw new DowFileReaderException("Error parsing in the data!", ioe);  //not sure why this was commented out
         }
     }
 
@@ -131,16 +140,11 @@ public class DowFileReader {
     /**
      * Method to parse a single line
      */
-    public void readAline(String line, int linePos) throws DowFileReaderException {
-
+    public void readAline(String line, int linePos) throws DowFileReaderException
+    {
         if(linePos < 0)
         {
             throw new DowFileReaderException("Wrong Line Position: " + linePos);
-        }
-
-        if(linePos == 0)
-        {
-            return; //Dont wanna read first line
         }
 
         if(linePos < 3)

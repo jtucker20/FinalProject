@@ -69,7 +69,8 @@ public class InflationRateFileReader {
      * This major method initializes the file.
      */
     public void setUp() throws InflationRateFileReaderException {
-        if(!validate()){
+        if(!validate())
+        {
            throw new InflationRateFileReaderException("Invalid File Setup.");
         }
 
