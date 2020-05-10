@@ -30,6 +30,31 @@ public class DowFileReader {
     private File dowFile;
 
     //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
+    /**
+     * Field that will hold the values of Dow Opens
+     */
+    private List<Double> dowOpens;
+
+    /**
+     * Field that will hold the values of Dow highs
+     */
+    private List<Double> dowHighs;
+
+    /**
+     * Field that will hold the values of Dow lows
+     */
+    private List<Double> dowLows;
+
+    /**
+     * Field that will hold the values of Dow closes
+     */
+    private List<Double> dowClose;
+
+    /**
+     * Field that will hold the dates corresponding to the integer
+     */
+    private List<Date> dowDates;
+
 
 
     //=============================================================================================
@@ -69,6 +94,18 @@ public class DowFileReader {
      */
     public void setUp() throws DowFileReaderException {
         //TODO, DO any setup you need.
+        if(!validate()){
+            throw new DowFileReaderException("Invalid File Setup.");
+        }
+
+        //Here we setup/instantiate the Array Lists to hold the data.
+        this.dowOpens = new ArrayList<Double>();
+        this.dowHighs = new ArrayList<Double>();
+        this.dowLows  = new ArrayList<Double>();
+        this.dowClose = new ArrayList<Double>();
+
+        this.dowDates = new ArrayList<Date>();
+
     }
 
     /**
@@ -122,6 +159,9 @@ public class DowFileReader {
     //=============================================================================================
 
     //TODO Put in minor methods
+    public boolean validate(){
+        return this.dowFile != null && this.dowFile.canRead();
+    }
 
     //=============================================================================================
     // Getters and Setters
