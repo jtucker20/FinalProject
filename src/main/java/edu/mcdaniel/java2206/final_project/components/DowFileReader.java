@@ -29,7 +29,6 @@ public class DowFileReader {
      */
     private File dowFile;
 
-    //TODO: YOU MUST PUT THE LISTS VARIABLES IN HERE!
     /**
      * Field that will hold the values of Dow Opens
      */
@@ -93,12 +92,11 @@ public class DowFileReader {
      * This major method initializes the file.
      */
     public void setUp() throws DowFileReaderException {
-        //TODO, DO any setup you need.
         if(!validate()){
             throw new DowFileReaderException("Invalid File Setup.");
         }
 
-        //Here we setup/instantiate the Array Lists to hold the data.
+        //Here we setup the Array Lists to hold the data
         this.dowOpens = new ArrayList<Double>();
         this.dowHighs = new ArrayList<Double>();
         this.dowLows  = new ArrayList<Double>();
@@ -151,14 +149,53 @@ public class DowFileReader {
      * Method to parse a single line
      */
     public void readAline(String line, int linePos) throws DowFileReaderException {
-        //TODO: IMPLEMENT THIS!!!!
+        if (linePos < 0) {
+            throw new DowFileReaderException("Bad Line Position: " + linePos);
+        }
+        if (linePos < 2) {
+            return;  // Skip the header lines
+        }
+        String[] lineParts = line.split(",");
+        String dt = lineParts[0];
+
+        if (lineParts.length == 7) {
+            String open = lineParts[1]; //Open is at pos 1;
+            String high = lineParts[2]; //High is at pos 2;
+            String low = lineParts[3]; //Low is at pos 3;
+            String close = lineParts[4];//Close is at pos 4;
+
+            //Date Parsing
+            String year = dt.substring(0, 4);
+            String month = dt.substring(5,7);
+            String day = dt.substring(8);
+            int yr = Integer.parseInt(year) - 1900;
+            int mn = Integer.parseInt(month) - 1;
+            int dy = Integer.parseInt(day);
+            Date date = new Date(yr, mn, dy);
+            this.dowDates.add(date);
+
+            //Open
+            double opn = Double.parseDouble(open);
+            this.dowOpens.add(opn);
+
+            //High
+            double hgh = Double.parseDouble(high);
+            this.dowHighs.add(hgh);
+
+            //Low
+            double lw = Double.parseDouble(low);
+            this.dowLows.add(lw);
+
+            //Close
+            double cls = Double.parseDouble(close);
+            this.dowClose.add(cls);
+        }
     }
 
     //=============================================================================================
     // Minor Methods(s)
     //=============================================================================================
 
-    //TODO Put in minor methods
     public boolean validate(){
         return this.dowFile != null && this.dowFile.canRead();
     }
@@ -181,5 +218,42 @@ public class DowFileReader {
         return this.dowFile;
     }
 
-    //TODO IMPLEMENT THE GETTERS AND SETTERS!
+
+    public List<Double> getDowOpens() {
+        return dowOpens;
+    }
+
+    public void setDowOpens(List<Double> dowOpens) {
+        this.dowOpens = dowOpens;
+    }
+
+    public List<Double> getDowHighs() {
+        return dowHighs;
+    }
+
+    public void setDowHighs(List<Double> dowHighs) { this.dowHighs = dowHighs; }
+
+    public List<Double> getDowLows() {
+        return dowLows;
+    }
+
+    public void setDowLows(List<Double> dowLows) {
+        this.dowLows = dowLows;
+    }
+
+    public List<Double> getDowClose() {
+        return dowClose;
+    }
+
+    public void setDowClose(List<Double> dowClose) {
+        this.dowClose = dowClose;
+    }
+
+    public List<Date> getDowDates() {
+        return dowDates;
+    }
+
+    public void setDowDates(List<Date> dowDates) {
+        this.dowDates = dowDates;
+    }
 }
